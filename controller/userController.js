@@ -1,48 +1,44 @@
-const { error } = require("console");
-const { resolveSoa } = require("dns");
-const loginService = require("../service");
-const User = require("../model/user");
+const { userService } = require("../service");
+const { validationResult } = require("express-validator");
+
+const register = async (req, res) => {
+    try {
+    const { email, password } = req.body;
+    const resultValidationReq = validationResult(req);
+    const hasErrors = !resultValidationReq.isEmpty();
+
+  if(hasErrors){
+    console.log("HAY ERRORES!")
+    console.log(resultValidationReq)
+    return res.status(400).send(resultValidationReq);
+  }
+    
+    const result = await userService.register(email, password);
+    res.status(200).send(result)
+        
+    } catch (error) {
+        res.status(500).send(error);
+    }
+     
+}
 
 const login = (req, res) => {
     const { email } = req.body;
 
     if(!email){
-        return res.status(400).send({ message: "El campo email es requerido" })
+        return res.status(403).send({ message: "El campo email es requerido" })
     }
 
     User.findOne({ email }, (error, user) => {
         if(error){
-            res.status(500).send({ message: `Se produjo un error`, error })
+            res.status(500).send({ message: `Se produjo un error al loguear el usuario`, error })
         }
-        if(!user){ //TODO
-            return res.status(404).status({ message: "No se encontro el email ingresado"})
+        if(!user || !req.body.password || !user.comparePassword(req.body.password)){ 
+            return res.status(404).send({ message: "usuario no existente o clave incorrecta"})
         }
-        if(!password && user.comparePassword(password)){
-            return res.status(401).send({ message: "Usuario o clave incorrectas"})
-        }
-
+        
+        req.user = user;
         res.status(200).send({ message: "Usuario logueado correctamente", token: loginService.createToken(user) })
-    })
-}
-
-const register = (req, res) => {
-    const { email, password } = req.body;
-
-    User.findOne({ email }, (error, user) => {
-        if(error){
-            res.status(500).send({ message: `Se produjo un error`, error })
-        }
-        if(user){ //TODO
-            return res.status(404).status({ message: "No se encontro el email ingresado"})
-        }
-
-        const newUser = new User({ email, password });
-        newUser.save((error) =>{
-            if(error){
-                return res.status(500).send({ message: "error al registrar el usuario", error})
-            }
-        })
-        res.status(200).send({ message: "Usuario logueado correctamente", token: loginService.createToken(user)})
     })
 }
 

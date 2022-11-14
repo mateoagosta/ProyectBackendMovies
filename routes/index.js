@@ -1,12 +1,12 @@
 const express = require("express");
 const routes = express.Router();
+
 const { isAuth } = require("../middleware")
+const { userController }  = require("../controller")
+const { userSchema }  = require("../controller/schemas")
 
-const{ usersController } = require("../controller/userController")
-
-routes
-    .post("/login", usersController.login)
-    .post("/register", usersController.register)
-    .post("/test", isAuth , usersController.test)
+routes.post("/login", userController.login)
+routes.post("/register", userSchema, userController.register)
+routes.get("/test", isAuth , userController.test)
 
 module.exports = routes;
