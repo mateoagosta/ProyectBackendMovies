@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt-nodejs");
 
-// Armamos el esquema de mongo de la creacion de usuario
+// Armamos el esquema de mongo de la creacion de usuario y relacionamos con los animes con anime
 const UserSchema = new Schema({
     email : { type: String, unique: true, lowercase: true },
     password : { type: String, required: true },
-    registerDate : { type: Date, default: Date.now() }
+    registerDate : { type: Date, default: Date.now() },
+    anime: [{ type: Schema.Types.ObjectId, ref: "Anime"}]
 });
 
 UserSchema.pre("save", (next) => {
