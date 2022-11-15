@@ -28,8 +28,18 @@ const register = (email, password) => {
     
 }
 
-const login = () => {
-    
+const login = (email, password) => { // REVISAR
+    return new Promise((resolve, reject) => {
+        User.findOne({ email }, (error, user) => {
+            if(error){
+                reject({ status: 500, message: 'Se produjo un error al registrar el usuario.', error });
+            }
+            if(!user || !password || !user.comparePassword(password)){
+                reject({ status: 401, message: 'El usuario o clave no son correctos.', error });
+            }
+            resolve({ status: 200,  message: 'Te has logueado correctamente', token: authService.createToken() });
+        });
+    })
 }
 
 module.exports = {
