@@ -24,19 +24,86 @@ const createAnime = async (title, description, urlImg, category, chapters, userI
         
 }
 
-const deleteAnime = async () => {
-    const { userId } = req.params; // Esta bien el userId o es userOwner : userId ??
+// const deleteAnime = async () => {
+//     const { userId } = req.params; // Esta bien el userId o es userOwner : userId ??
 
-     const newData = db.find((el) => el.userId === userId);
+//      const newData = db.find((el) => el.userId === userId);
 
-    if (newData) {
-    let deleteById = db.filter((el) => el.userId != userId);
-    return res.status(200).send({ deleteById });
-    } else
-    res.status(404).send({message:"El usuario que intenta eliminar no existe en la base de datos"});
+//     if (newData) {
+//     let deleteById = db.filter((el) => el.userId != userId);
+//     return res.status(200).send({ deleteById });
+//     } else
+//     res.status(404).send({message:"El usuario que intenta eliminar no existe en la base de datos"});
+// }
+
+const updateAnime= (id, name, value) => {
+    return new Promise((resolve, reject) => {
+        Anime.findByIdAndUpdate({ _id: id }, { name, value }, (err, result) => {
+            if(err){
+                reject(err);
+            }
+            resolve();
+        });
+    });
 }
+
+const deleteAnime = (id) => {
+    return new Promise((resolve, reject) => {
+        Anime.findByIdAndRemove(id, (err, result) => {
+            if(err){
+                reject(err);
+            } else if (!result){
+                reject("El id ingresado no existe.");
+            }
+            resolve(result);
+        });
+    });
+}
+
+const getOneAnime = async (req, res) =>{
+    const { title, description, urlImg, category, chapters } = req.body ;
+    let result;
+    let criteria = {};
+    try{
+        if(body){
+            criteria.body = body;
+        }
+        const animes = await Animes.find(criteria);
+        result = {
+            status: 200,
+            animes,
+        }
+    }catch(error){
+        throw error;
+    }
+    return result;   
+}
+
+const getAllAnimes = async (req, res) =>{
+
+    const { title, description, urlImg, category } = req.body ;
+    let result;
+    let criteria = {};
+    try{
+        if(body){
+            criteria.body = body;
+        }
+        const animes = await Animes.find(criteria);
+        result = {
+            status: 200,
+            animes,
+        }
+    }catch(error){
+        throw error;
+    }
+    return result;  
+}
+
 
 module.exports = {
     createAnime,
     deleteAnime,
+    updateAnime,
+    getAllAnimes,
+    getOneAnime
 }

@@ -24,7 +24,46 @@ const deleteAnime = async (req, res) => {
     }
 }
 
+const updateAnime = async (req, res) =>{
+    try {
+        const { title, description, urlImg, category, chapters } = req.body ;
+
+        const result = await animeService.updateAnime(title, description, urlImg, category, chapters);
+        res.status(201).send(result);
+    } catch (error) {
+        res.status(500).send("Se produjo un error al editar el anime")
+    }   
+}
+
+const getOneAnime = async (req, res) =>{
+    try {
+        const { title, description, urlImg, category, chapters } = req.body ;
+
+        const result = await animeService.getOneAnime(title, description, urlImg, category, chapters);
+        res.status(201).send(result);
+    } catch (error) {
+        res.status(500).send("Se produjo un error al mostrar el anime")
+    }   
+}
+
+const getAllAnimes = async (req, res) =>{
+    try {
+        const { title, description, urlImg, category } = req.body ;
+
+        const result = await animeService.getAllAnimes(title, description, urlImg, category);
+        res.status(201).send(result);
+    } catch (error) {
+        res.status(500).send("Se produjo un error al mostrar el anime")
+    }   
+}
+
+
+
 module.exports = {
     createAnime,
-    deleteAnime
+    deleteAnime,
+    updateAnime,
+    getOneAnime,
+    getAllAnimes
+
 }

@@ -14,7 +14,7 @@ app.use(express.json());
 dotenv.config();
 
 // Generamos la extension para las rutas
-app.use("./api", routes)
+app.use("/api", routes)
 
 // Conectamos el sv con mongo
 mongoose.connect(process.env.MONGO_DB, { useNewUrlParser: true }, (error, response) => {

@@ -8,7 +8,7 @@ const register = async (req, res) => {
     const hasErrors = !resultValidationReq.isEmpty();
 
   if(hasErrors){
-    console.log("HAY ERRORES!")
+    console.log("Se produjeron errores en la validacion")
     console.log(resultValidationReq)
     return res.status(400).send(resultValidationReq);
   }
@@ -23,7 +23,7 @@ const register = async (req, res) => {
 }
 
 const login = (req, res) => {
-    const { email } = req.body;
+    const { email, password } = req.body;
 
     if(!email){
         return res.status(403).send({ message: "El campo email es requerido" })
