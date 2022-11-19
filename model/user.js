@@ -10,25 +10,23 @@ const UserSchema = new Schema({
     anime: [{ type: Schema.Types.ObjectId, ref: "Anime"}]
 });
 
-UserSchema.pre("save", (next) => {
+UserSchema.pre("save", function (next) {
     let user = this;
-
     // if(!user.isModified("password")){
     //     return next();
     // }
-
     bcrypt.genSalt(10, (error, salt) => {
-        if(error){
-            return next(error);
-        }
-        bcrypt.hash(user.password, salt, null, (error, hash) => {
-            user.password = hash;
-            next();
-        })
-    })
-});
+      if (error) {
+        return next(error);
+      }
+      bcrypt.hash(user.password, salt, null, (error, hash) => {
+        user.password = hash;
+        next();
+      });
+    });
+  });
 
-UserSchema.method.comparePassword = (password) => {
+UserSchema.methods.comparePassword = function (password) {
     let user = this;
     return bcrypt.compareSync(password, user.password);
 }

@@ -37,7 +37,7 @@ const login = (email, password) => { // REVISAR
             if(!user || !password || !user.comparePassword(password)){
                 reject({ status: 401, message: 'El usuario o clave no son correctos.', error });
             }
-            resolve({ status: 200,  message: 'Te has logueado correctamente', token: authService.createToken() });
+            resolve({ status: 200,  message: 'Te has logueado correctamente', token: loginService.createToken() });
         });
     })
 }

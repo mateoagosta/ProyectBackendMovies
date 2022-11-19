@@ -6,7 +6,7 @@ const { userController, animeController, chapterController }  = require("../cont
 const { userSchema }  = require("../controller/schemas")
 
 // Rutas de user
-routes.post("/login", userController.login)
+routes.get("/login", userController.login)
 routes.post("/register", userSchema, userController.register)
 routes.get("/test", isAuth , userController.test)
 // routes.post("/favorite", userController.favorite)
