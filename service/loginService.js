@@ -3,7 +3,7 @@ const { DateTime } = require("luxon");
 
 const createToken = (user) => {
     const payload = {
-        sub : user._id,
+        // sub : user._id,
         iat : DateTime.now().toMillis(),
         exp : DateTime.now().plus({ day: 14 }).toMillis()
     };

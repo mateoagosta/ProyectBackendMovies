@@ -1,27 +1,34 @@
 const Anime = require("../model/anime");
 const User = require("../model/user");
 
-const createAnime = async (title, description, urlImg, category, chapters, userId) => {
+const createAnime = async (title, description, urlImg, category, chapters) => {
 
     let result;
 
     try{
-        const userFound = await User.findById(userId); //usamos el userId para relacionar anime-user
-        if(!userFound){
-            return;
-        }
-        const newAnime = new Anime({title, description, urlImg, category, chapters, userOwner: userId})
+        // const userFound = await User.findById(userId); //usamos el userId para relacionar anime-user
+        // if(userFound){
+        //     console.log(!userFound)
+        //     return { status: 400, message: "El usuario no existe", id: userId}
+
+        // Falta poner condicionales porque te crea el anime de una y puede haber 2 iguales con mismo nombre
+        // pero tendran diferente id
+        const newAnime = new Anime({title, description, urlImg, category, chapters})
         await newAnime.save();
 
         userFound.anime.push(newAnime._id); // Usamos la funcion para pushear con el userFound los anime 
         await userFound.save() //Grabo aca los animes.
+        result = {
+            status: 201,
+            message: "anime creado exitosamente",
+            newAnime
+        }
         
     }catch(error){
         console.log(error);
         throw error;
     }
     return result;         
-        
 }
 
 // const deleteAnime = async () => {
@@ -79,16 +86,14 @@ const getOneAnime = async (req, res) =>{
     return result;   
 }
 
-const getAllAnimes = async (req, res) =>{
-
-    const { title, description, urlImg, category } = req.body ;
+const getAllAnimes = async (category) =>{
     let result;
     let criteria = {};
     try{
-        if(body){
-            criteria.body = body;
+        if(category){
+            criteria.category = category;
         }
-        const animes = await Animes.find(criteria);
+        const animes = await Anime.find(criteria);
         result = {
             status: 200,
             animes,

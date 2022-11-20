@@ -2,10 +2,10 @@ const { animeService } = require("../service");
 
 const createAnime = async (req, res) =>{
     try {
-        const { title, description, urlImg, category, chapters, userId } = req.body ;
+        const { title, description, urlImg, category, chapters } = req.body ;
 
-        const result = await animeService.createAnime(title, description, urlImg, category, chapters, userId);
-        res.status(201).send(result);
+        const result = await animeService.createAnime(title, description, urlImg, category, chapters);
+        res.status(200).send(result);
     } catch (error) {
         res.status(500).send("Se produjo un error al crear el anime")
     }
@@ -48,12 +48,12 @@ const getOneAnime = async (req, res) =>{
 
 const getAllAnimes = async (req, res) =>{
     try {
-        const { title, description, urlImg, category } = req.body ;
+        const { category } = req.body ;
 
-        const result = await animeService.getAllAnimes(title, description, urlImg, category);
+        const result = await animeService.getAllAnimes(category);
         res.status(201).send(result);
-    } catch (error) {
-        res.status(500).send("Se produjo un error al mostrar el anime")
+    }catch(error) {
+        res.status(500).send("Se produjo un error al mostrar los animes")
     }   
 }
 
