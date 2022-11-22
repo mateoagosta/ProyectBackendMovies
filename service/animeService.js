@@ -30,33 +30,6 @@ const createAnime = async (title, description, urlImg, category, chapters) => {
     }
     return result;         
 }
-
-// const deleteAnime = async () => {
-//     const { userId } = req.params; // Esta bien el userId o es userOwner : userId ??
-
-//      const newData = db.find((el) => el.userId === userId);
-
-//     if (newData) {
-//     let deleteById = db.filter((el) => el.userId != userId);
-//     return res.status(200).send({ deleteById });
-//     } else
-//     res.status(404).send({message:"El usuario que intenta eliminar no existe en la base de datos"});
-// }
-
-const updateAnime = async (req, res) => {
-    try {
-        const { _id } = req.params;
-        const updates = req.body;
-        const options = { new: true };
-    
-        const result = await Anime.findByIdAndUpdate(_id, updates, options);
-        result.save();
-        res.status(200).send(result);
-    } catch (error){
-        res.status(404).send({ message: "El id ingresado no coincide con ningún Anime" });
-    }
-}
-
 const deleteAnime = async (_id) => {
     // return new Promise((resolve, reject) => {
     //     Anime.findByIdAndRemove(_id, (err, result) => {
@@ -70,11 +43,35 @@ const deleteAnime = async (_id) => {
     // });
     try{
          await Anime.findByIdAndRemove(_id);
-        res.status(200).send("Anime eliminado correctamente")    
+        // res.status(200).send("Anime eliminado correctamente")
+        return {data : "anime eliminado"}
     }catch(error){
-        res.status(404).send(error);
+        // res.status(404).send(error);
+        throw error;
     }
 }
+
+
+const updateAnime = async (_id, body) => {
+    try {
+
+        const update = {
+            title: body.title,
+            description: body.description,
+            urlImg: body.urlImg,
+            category: body.category
+        }
+        const options = { new: true };
+
+        const result = await Anime.findByIdAndUpdate(_id, update, options);
+        result.save();
+        result;
+    } catch (error){
+        throw error
+    }
+}
+
+
 
 const getOneAnime = async (_id) =>{
     

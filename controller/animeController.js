@@ -1,3 +1,4 @@
+const anime = require("../model/anime");
 const { animeService } = require("../service");
 
 const createAnime = async (req, res) =>{
@@ -16,22 +17,32 @@ const deleteAnime = async (req, res) => {
     try {
         const { _id } = req.params ;
         const result = await animeService.deleteAnime(_id);
-        res.status(201).send(result);
-        
+        res.status(201).send(result.data);
+
     } catch (error) {
         res.status(404).send("No se pudo eliminar el Anime ya que no se encuentra en la base de datos");
     }
 }
 
+// const updateAnime = (req, res) =>{
+//     try {
+//         const { _id } = req.params ;
+        
+//         const result = animeService.updateAnime(_id);
+//         res.status(201).send(result);
+//     } catch (error) {
+//         res.status(500).send("Se produjo un error al editar el anime")
+//     }   
+// }
 const updateAnime = (req, res) =>{
     try {
         const { _id } = req.params ;
-        
-        const result = animeService.updateAnime(_id);
+
+        const result = animeService.updateAnime(_id, req.body);
         res.status(201).send(result);
     } catch (error) {
         res.status(500).send("Se produjo un error al editar el anime")
-    }   
+    }
 }
 
 const getOneAnime = async (req, res) =>{
