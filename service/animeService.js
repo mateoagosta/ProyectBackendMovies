@@ -16,8 +16,8 @@ const createAnime = async (title, description, urlImg, category, chapters) => {
         const newAnime = new Anime({title, description, urlImg, category, chapters})
         await newAnime.save();
 
-        userFound.anime.push(newAnime._id); // Usamos la funcion para pushear con el userFound los anime 
-        await userFound.save() //Grabo aca los animes.
+        // const userFound = userFound.anime.push(newAnime._id); // Usamos la funcion para pushear con el userFound los anime 
+        // await userFound.save() //Grabo aca los animes.
         result = {
             status: 201,
             message: "anime creado exitosamente",
@@ -43,39 +43,48 @@ const createAnime = async (title, description, urlImg, category, chapters) => {
 //     res.status(404).send({message:"El usuario que intenta eliminar no existe en la base de datos"});
 // }
 
-const updateAnime= (id, name, value) => {
-    return new Promise((resolve, reject) => {
-        Anime.findByIdAndUpdate({ _id: id }, { name, value }, (err, result) => {
-            if(err){
-                reject(err);
-            }
-            resolve();
-        });
-    });
+const updateAnime = async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const updates = req.body;
+        const options = { new: true };
+    
+        const result = await Anime.findByIdAndUpdate(_id, updates, options);
+        result.save();
+        res.status(200).send(result);
+    } catch (error){
+        res.status(404).send({ message: "El id ingresado no coincide con ningún Anime" });
+    }
 }
 
-const deleteAnime = (id) => {
-    return new Promise((resolve, reject) => {
-        Anime.findByIdAndRemove(id, (err, result) => {
-            if(err){
-                reject(err);
-            } else if (!result){
-                reject("El id ingresado no existe.");
-            }
-            resolve(result);
-        });
-    });
+const deleteAnime = async (_id) => {
+    // return new Promise((resolve, reject) => {
+    //     Anime.findByIdAndRemove(_id, (err, result) => {
+    //         if(err){
+    //             reject(err);
+    //         } else if (!result){
+    //             reject("El id ingresado no existe.");
+    //         }
+    //         resolve(result);
+    //     });
+    // });
+    try{
+         await Anime.findByIdAndRemove(_id);
+        res.status(200).send("Anime eliminado correctamente")    
+    }catch(error){
+        res.status(404).send(error);
+    }
 }
 
-const getOneAnime = async (req, res) =>{
-    const { title, description, urlImg, category, chapters } = req.body ;
+const getOneAnime = async (_id) =>{
+    
     let result;
     let criteria = {};
     try{
-        if(body){
-            criteria.body = body;
+        if(_id){
+            criteria._id = _id;
         }
-        const animes = await Animes.find(criteria);
+        const animes = await Anime.findOne(criteria);
         result = {
             status: 200,
             animes,

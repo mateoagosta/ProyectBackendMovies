@@ -13,9 +13,9 @@ routes.get("/test", isAuth , userController.test)
 
 // Rutas de anime
 routes.get("/allAnime", animeController.getAllAnimes)
-routes.get("/oneAnime", animeController.getOneAnime)
-routes.delete("/deleteAnime", animeController.deleteAnime)
-routes.put("/updateAnime", animeController.updateAnime)
+routes.get("/oneAnime/:_id", animeController.getOneAnime)
+routes.delete("/deleteAnime/:_id", animeController.deleteAnime)
+routes.put("/updateAnime/:_id", animeController.updateAnime)
 routes.post("/createAnime", animeController.createAnime)
 
 // Rutas de capitulos

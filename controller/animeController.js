@@ -14,9 +14,8 @@ const createAnime = async (req, res) =>{
 
 const deleteAnime = async (req, res) => {
     try {
-        const { title, description, urlImg, category, chapters, userId } = req.body ;
-
-        const result = await animeService.deleteAnime(title, description, urlImg, category, chapters, userId);
+        const { _id } = req.params ;
+        const result = await animeService.deleteAnime(_id);
         res.status(201).send(result);
         
     } catch (error) {
@@ -24,11 +23,11 @@ const deleteAnime = async (req, res) => {
     }
 }
 
-const updateAnime = async (req, res) =>{
+const updateAnime = (req, res) =>{
     try {
-        const { title, description, urlImg, category, chapters } = req.body ;
-
-        const result = await animeService.updateAnime(title, description, urlImg, category, chapters);
+        const { _id } = req.params ;
+        
+        const result = animeService.updateAnime(_id);
         res.status(201).send(result);
     } catch (error) {
         res.status(500).send("Se produjo un error al editar el anime")
@@ -37,9 +36,9 @@ const updateAnime = async (req, res) =>{
 
 const getOneAnime = async (req, res) =>{
     try {
-        const { title, description, urlImg, category, chapters } = req.body ;
+        const { _id } = req.params ;
 
-        const result = await animeService.getOneAnime(title, description, urlImg, category, chapters);
+        const result = await animeService.getOneAnime(_id);
         res.status(201).send(result);
     } catch (error) {
         res.status(500).send("Se produjo un error al mostrar el anime")
