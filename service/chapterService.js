@@ -82,7 +82,7 @@ const getAllChapters = async (_id) =>{
         if(_id){
             criteria._id = _id;
         }
-        const chapters = await Anime.findById(criteria);
+        const chapters = await chapters.findById(criteria._id);
         result = {
             status: 200,
             chapters,

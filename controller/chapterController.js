@@ -3,9 +3,10 @@ const chapters = require("../model/chapters");
 
 const getAllChapters = async (req, res) => {
     try {
-        const { category } = req.body ;
+        const { _id } = req.params ;
 
-        const result = await chapterService.getAllChapters(category);
+        const result = await chapterService.getAllChapters(_id);
+        console.log(result);
         res.status(201).send(result);
     }catch(error) {
         res.status(500).send("Se produjo un error al mostrar los capitulos")
