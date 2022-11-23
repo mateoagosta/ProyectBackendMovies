@@ -19,10 +19,10 @@ routes.put("/updateAnime/:_id", animeController.updateAnime)
 routes.post("/createAnime", animeController.createAnime)
 
 // Rutas de capitulos
-routes.get("/getAllChapters", chapterController.getAllChapters)
-routes.post("/createCapter", chapterController.createCapter)
-routes.delete("/deleteChapter", chapterController.deleteChapter)
-routes.put("/updateChapter", chapterController.updateChapter)
+routes.get("/getAllChapters/:_id", chapterController.getAllChapters)
+routes.post("/createChapter", chapterController.createChapter)
+routes.delete("/deleteChapter/:_id", chapterController.deleteChapter)
+routes.put("/updateChapter/:_id", chapterController.updateChapter)
 
 
 

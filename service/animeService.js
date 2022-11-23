@@ -31,16 +31,6 @@ const createAnime = async (title, description, urlImg, category, chapters) => {
     return result;         
 }
 const deleteAnime = async (_id) => {
-    // return new Promise((resolve, reject) => {
-    //     Anime.findByIdAndRemove(_id, (err, result) => {
-    //         if(err){
-    //             reject(err);
-    //         } else if (!result){
-    //             reject("El id ingresado no existe.");
-    //         }
-    //         resolve(result);
-    //     });
-    // });
     try{
          await Anime.findByIdAndRemove(_id);
         // res.status(200).send("Anime eliminado correctamente")
@@ -54,7 +44,6 @@ const deleteAnime = async (_id) => {
 
 const updateAnime = async (_id, body) => {
     try {
-
         const update = {
             title: body.title,
             description: body.description,
@@ -70,7 +59,6 @@ const updateAnime = async (_id, body) => {
         throw error
     }
 }
-
 
 
 const getOneAnime = async (_id) =>{
