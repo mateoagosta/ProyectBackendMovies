@@ -1,5 +1,5 @@
+const anime = require("../model/anime");
 const Anime = require("../model/anime");
-const chapters = require("../model/chapters");
 const Chapter = require("../model/chapters");
 
 const createChapter = async (title, description, urlVideo, animeId ) => {
@@ -8,7 +8,7 @@ const createChapter = async (title, description, urlVideo, animeId ) => {
 
     try{
 
-        const animeFound = await Anime.findById(animeId); 
+        const animeFound = await anime.findById(animeId); 
         if(!animeFound){
             return {status: 400, message: "El anime no existe", animeId}
         }
@@ -20,7 +20,9 @@ const createChapter = async (title, description, urlVideo, animeId ) => {
             status: 201,
             message: "capitulo creado exitosamente",
             newChapter
-        }; return result;    
+        }; 
+        return result;
+        ;    
     }catch(error){
         console.log(error);
         throw error;
@@ -44,7 +46,7 @@ const updateChapter = async (_id, body) => {
   
         const options = { new: true };
   
-        const result = await chapters.findByIdAndUpdate(_id, update, options);
+        const result = await Chapter.findByIdAndUpdate(_id, update, options);
         
         result;
     } catch (error){
@@ -82,17 +84,33 @@ const getAllChapters = async (_id) =>{
         if(_id){
             criteria._id = _id;
         }
-        const chapters = await chapters.findById(criteria._id);
+        const chapter = await Anime.findById(criteria._id);
         result = {
             status: 200,
-            chapters,
+            chapter,
         };
+        console.log(result)
         return result;
     }catch(error){
-        throw error;
+        throw error;    
     }
        
 }
+// const getAllChapters = async (_id) => {
+//     try {
+//         if(_id){
+//             criteria._id = _id;
+//         }
+//       const chapters = await anime.findById(_id).populate("Chapters").exec(function (err, chapters) {
+//         if (err) return {errror:err};
+//         console.log(chapters);
+//       });
+//       return chapters;
+//     } catch (error) {
+//       throw error;
+//     }
+//   };
+
 
 
 module.exports = {
