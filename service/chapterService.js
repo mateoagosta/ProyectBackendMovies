@@ -3,7 +3,6 @@ const Anime = require("../model/anime");
 const Chapter = require("../model/chapters");
 
 const createChapter = async (title, description, urlVideo, animeId ) => {
-
     let result;
 
     try{
@@ -41,8 +40,7 @@ const deleteChapter = async (_id) => {
 const updateChapter = async (_id, body) => {
     try {
   
-  
-        const update = validate(body.title,body.description,body.urlImg,body.category);
+        const update = validate(body.title, body.description, body.urlImg, body.category);
   
         const options = { new: true };
   
@@ -70,10 +68,6 @@ const updateChapter = async (_id, body) => {
       res.urlImg = urlImg;
     }
   
-    if(category){
-      res.category = category;
-    }
-  
     return res;
   }
 
@@ -96,22 +90,6 @@ const getAllChapters = async (_id) =>{
     }
        
 }
-// const getAllChapters = async (_id) => {
-//     try {
-//         if(_id){
-//             criteria._id = _id;
-//         }
-//       const chapters = await anime.findById(_id).populate("Chapters").exec(function (err, chapters) {
-//         if (err) return {errror:err};
-//         console.log(chapters);
-//       });
-//       return chapters;
-//     } catch (error) {
-//       throw error;
-//     }
-//   };
-
-
 
 module.exports = {
     createChapter,

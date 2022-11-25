@@ -2,22 +2,10 @@ const Anime = require("../model/anime");
 const User = require("../model/user");
 
 const createAnime = async (title, description, urlImg, category, chapters) => {
-
     let result;
-
     try{
-        // const userFound = await User.findById(userId); //usamos el userId para relacionar anime-user
-        // if(userFound){
-        //     console.log(!userFound)
-        //     return { status: 400, message: "El usuario no existe", id: userId}
-
-        // Falta poner condicionales porque te crea el anime de una y puede haber 2 iguales con mismo nombre
-        // pero tendran diferente id
         const newAnime = new Anime({title, description, urlImg, category, chapters})
         await newAnime.save();
-
-        // const userFound = userFound.anime.push(newAnime._id); // Usamos la funcion para pushear con el userFound los anime 
-        // await userFound.save() //Grabo aca los animes.
         result = {
             status: 201,
             message: "anime creado exitosamente",
@@ -41,14 +29,13 @@ const deleteAnime = async (_id) => {
     }
 }
 
-
 const updateAnime = async (_id, body) => {
     try {
         const update = {
             title: body.title,
             description: body.description,
             urlImg: body.urlImg,
-            category: body.category
+            // category: body.category
         }
         const options = { new: true };
 
@@ -59,7 +46,6 @@ const updateAnime = async (_id, body) => {
         throw error
     }
 }
-
 
 const getOneAnime = async (_id) =>{
     

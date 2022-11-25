@@ -24,16 +24,6 @@ const deleteAnime = async (req, res) => {
     }
 }
 
-// const updateAnime = (req, res) =>{
-//     try {
-//         const { _id } = req.params ;
-        
-//         const result = animeService.updateAnime(_id);
-//         res.status(201).send(result);
-//     } catch (error) {
-//         res.status(500).send("Se produjo un error al editar el anime")
-//     }   
-// }
 const updateAnime = (req, res) =>{
     try {
         const { _id } = req.params ;
